@@ -8,7 +8,8 @@
 import Foundation
 
 struct SoloSetGameModel<Card: SetCard> {
-    private(set) var deckOfCards: Array<Card> = []
+    private(set) var undealtCards: Array<Card> = []
+    private(set) var discardCards: Array<Card> = []
     
 //    init(property1: Card.Property1.Type,
 //         property2: Card.Property2.Type,
@@ -28,7 +29,9 @@ struct SoloSetGameModel<Card: SetCard> {
 //    }
     
     init(cardGetter: () -> [Card]) {
-        deckOfCards = cardGetter()
-        deckOfCards.shuffle()
+        undealtCards = cardGetter()
+        undealtCards.shuffle()
+        
+        discardCards = []
     }
 }

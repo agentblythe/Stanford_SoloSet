@@ -10,8 +10,12 @@ import Foundation
 class ClassicSoloSetGame: ObservableObject {
     @Published private var model: SoloSetGameModel<Card>
     
-    var cards: Array<Card> {
-        return model.deckOfCards
+    var undealtCards: Array<Card> {
+        return model.undealtCards
+    }
+    
+    var discardCards: Array<Card> {
+        return model.discardCards
     }
     
 //    init() {
