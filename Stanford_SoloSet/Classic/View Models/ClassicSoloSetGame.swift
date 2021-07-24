@@ -18,12 +18,9 @@ class ClassicSoloSetGame: ObservableObject {
         return model.discardCards
     }
     
-//    init() {
-//        model = SoloSetGameModel<Card>(property1: Card.Number.self,
-//                                       property2: Card.Shape.self,
-//                                       property3: Card.Shading.self,
-//                                       property4: Card.ValidColor.self)
-//    }
+    var dealtCards: Array<Card> {
+        return model.dealtCards
+    }
     
     init() {
         model = SoloSetGameModel(cardGetter: Card.getAll)
