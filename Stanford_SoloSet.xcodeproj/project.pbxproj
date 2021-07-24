@@ -7,19 +7,45 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4915982826AC9E79009E7D6A /* ShapeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4915982726AC9E79009E7D6A /* ShapeView.swift */; };
+		4915982B26ACA0B4009E7D6A /* ShapeColorModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4915982A26ACA0B4009E7D6A /* ShapeColorModifier.swift */; };
+		4915982D26ACA159009E7D6A /* ShapeShadingModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4915982C26ACA159009E7D6A /* ShapeShadingModifier.swift */; };
+		4915982F26ACA1A7009E7D6A /* View+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4915982E26ACA1A7009E7D6A /* View+.swift */; };
 		4922B42426A60BBC002A8109 /* Stanford_SoloSetApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4922B42326A60BBC002A8109 /* Stanford_SoloSetApp.swift */; };
-		4922B42626A60BBC002A8109 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4922B42526A60BBC002A8109 /* ContentView.swift */; };
 		4922B42826A60BBF002A8109 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4922B42726A60BBF002A8109 /* Assets.xcassets */; };
 		4922B42B26A60BBF002A8109 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4922B42A26A60BBF002A8109 /* Preview Assets.xcassets */; };
+		4922B43E26A60F6B002A8109 /* SoloSetGameModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4922B43D26A60F6B002A8109 /* SoloSetGameModel.swift */; };
+		4922B44426A61A8C002A8109 /* Diamond.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4922B44326A61A8C002A8109 /* Diamond.swift */; };
+		4922B44D26A725FD002A8109 /* Wave.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4922B44C26A725FD002A8109 /* Wave.swift */; };
+		4922B45E26A775EA002A8109 /* GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4922B45D26A775EA002A8109 /* GameView.swift */; };
+		4922B46426A84279002A8109 /* SetCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4922B46326A84279002A8109 /* SetCard.swift */; };
+		4922B46626A84308002A8109 /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4922B46526A84308002A8109 /* Card.swift */; };
+		4922B46A26A84442002A8109 /* ClassicSoloSetGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4922B46926A84442002A8109 /* ClassicSoloSetGame.swift */; };
+		4922B46E26A84A09002A8109 /* Color+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4922B46D26A84A09002A8109 /* Color+.swift */; };
+		497FBFAC26A8917C007D9819 /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497FBFAB26A8917C007D9819 /* CardView.swift */; };
+		497FBFAE26A9F598007D9819 /* Stripes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497FBFAD26A9F598007D9819 /* Stripes.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4915982726AC9E79009E7D6A /* ShapeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShapeView.swift; sourceTree = "<group>"; };
+		4915982A26ACA0B4009E7D6A /* ShapeColorModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShapeColorModifier.swift; sourceTree = "<group>"; };
+		4915982C26ACA159009E7D6A /* ShapeShadingModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShapeShadingModifier.swift; sourceTree = "<group>"; };
+		4915982E26ACA1A7009E7D6A /* View+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+.swift"; sourceTree = "<group>"; };
 		4922B42026A60BBC002A8109 /* Stanford_SoloSet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Stanford_SoloSet.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4922B42326A60BBC002A8109 /* Stanford_SoloSetApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stanford_SoloSetApp.swift; sourceTree = "<group>"; };
-		4922B42526A60BBC002A8109 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		4922B42726A60BBF002A8109 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4922B42A26A60BBF002A8109 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		4922B42C26A60BBF002A8109 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4922B43D26A60F6B002A8109 /* SoloSetGameModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoloSetGameModel.swift; sourceTree = "<group>"; };
+		4922B44326A61A8C002A8109 /* Diamond.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Diamond.swift; sourceTree = "<group>"; };
+		4922B44C26A725FD002A8109 /* Wave.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Wave.swift; sourceTree = "<group>"; };
+		4922B45D26A775EA002A8109 /* GameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameView.swift; sourceTree = "<group>"; };
+		4922B46326A84279002A8109 /* SetCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetCard.swift; sourceTree = "<group>"; };
+		4922B46526A84308002A8109 /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
+		4922B46926A84442002A8109 /* ClassicSoloSetGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassicSoloSetGame.swift; sourceTree = "<group>"; };
+		4922B46D26A84A09002A8109 /* Color+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+.swift"; sourceTree = "<group>"; };
+		497FBFAB26A8917C007D9819 /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
+		497FBFAD26A9F598007D9819 /* Stripes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stripes.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -33,6 +59,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4915982926AC9F1A009E7D6A /* ViewModifiers */ = {
+			isa = PBXGroup;
+			children = (
+				4915982A26ACA0B4009E7D6A /* ShapeColorModifier.swift */,
+				4915982C26ACA159009E7D6A /* ShapeShadingModifier.swift */,
+			);
+			path = ViewModifiers;
+			sourceTree = "<group>";
+		};
 		4922B41726A60BBC002A8109 = {
 			isa = PBXGroup;
 			children = (
@@ -52,8 +87,13 @@
 		4922B42226A60BBC002A8109 /* Stanford_SoloSet */ = {
 			isa = PBXGroup;
 			children = (
-				4922B42326A60BBC002A8109 /* Stanford_SoloSetApp.swift */,
-				4922B42526A60BBC002A8109 /* ContentView.swift */,
+				4915982926AC9F1A009E7D6A /* ViewModifiers */,
+				4922B46F26A84D72002A8109 /* Startup */,
+				4922B46026A77A19002A8109 /* Extensions */,
+				4922B45F26A777D4002A8109 /* Protocols */,
+				4922B45A26A77117002A8109 /* Classic */,
+				4922B44226A61A80002A8109 /* Shapes */,
+				4922B43226A60E38002A8109 /* Models */,
 				4922B42726A60BBF002A8109 /* Assets.xcassets */,
 				4922B42C26A60BBF002A8109 /* Info.plist */,
 				4922B42926A60BBF002A8109 /* Preview Content */,
@@ -67,6 +107,77 @@
 				4922B42A26A60BBF002A8109 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		4922B43226A60E38002A8109 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				4922B43D26A60F6B002A8109 /* SoloSetGameModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		4922B44226A61A80002A8109 /* Shapes */ = {
+			isa = PBXGroup;
+			children = (
+				4922B44326A61A8C002A8109 /* Diamond.swift */,
+				4922B44C26A725FD002A8109 /* Wave.swift */,
+				497FBFAD26A9F598007D9819 /* Stripes.swift */,
+			);
+			path = Shapes;
+			sourceTree = "<group>";
+		};
+		4922B45A26A77117002A8109 /* Classic */ = {
+			isa = PBXGroup;
+			children = (
+				4922B46826A8442C002A8109 /* View Models */,
+				4922B46726A84407002A8109 /* Views */,
+				4922B46526A84308002A8109 /* Card.swift */,
+			);
+			path = Classic;
+			sourceTree = "<group>";
+		};
+		4922B45F26A777D4002A8109 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				4922B46326A84279002A8109 /* SetCard.swift */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
+		4922B46026A77A19002A8109 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				4922B46D26A84A09002A8109 /* Color+.swift */,
+				4915982E26ACA1A7009E7D6A /* View+.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		4922B46726A84407002A8109 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				4922B45D26A775EA002A8109 /* GameView.swift */,
+				497FBFAB26A8917C007D9819 /* CardView.swift */,
+				4915982726AC9E79009E7D6A /* ShapeView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		4922B46826A8442C002A8109 /* View Models */ = {
+			isa = PBXGroup;
+			children = (
+				4922B46926A84442002A8109 /* ClassicSoloSetGame.swift */,
+			);
+			path = "View Models";
+			sourceTree = "<group>";
+		};
+		4922B46F26A84D72002A8109 /* Startup */ = {
+			isa = PBXGroup;
+			children = (
+				4922B42326A60BBC002A8109 /* Stanford_SoloSetApp.swift */,
+			);
+			path = Startup;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -138,8 +249,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4922B42626A60BBC002A8109 /* ContentView.swift in Sources */,
+				4922B46A26A84442002A8109 /* ClassicSoloSetGame.swift in Sources */,
+				4922B46426A84279002A8109 /* SetCard.swift in Sources */,
+				4915982F26ACA1A7009E7D6A /* View+.swift in Sources */,
+				4922B44D26A725FD002A8109 /* Wave.swift in Sources */,
+				4922B46626A84308002A8109 /* Card.swift in Sources */,
 				4922B42426A60BBC002A8109 /* Stanford_SoloSetApp.swift in Sources */,
+				4922B43E26A60F6B002A8109 /* SoloSetGameModel.swift in Sources */,
+				4915982826AC9E79009E7D6A /* ShapeView.swift in Sources */,
+				4922B44426A61A8C002A8109 /* Diamond.swift in Sources */,
+				4922B45E26A775EA002A8109 /* GameView.swift in Sources */,
+				4915982B26ACA0B4009E7D6A /* ShapeColorModifier.swift in Sources */,
+				497FBFAC26A8917C007D9819 /* CardView.swift in Sources */,
+				4915982D26ACA159009E7D6A /* ShapeShadingModifier.swift in Sources */,
+				497FBFAE26A9F598007D9819 /* Stripes.swift in Sources */,
+				4922B46E26A84A09002A8109 /* Color+.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

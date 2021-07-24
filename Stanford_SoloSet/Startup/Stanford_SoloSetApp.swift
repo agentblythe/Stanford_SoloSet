@@ -9,9 +9,11 @@ import SwiftUI
 
 @main
 struct Stanford_SoloSetApp: App {
+    private let game = ClassicSoloSetGame()
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            GameView(game: game)
         }
     }
 }
