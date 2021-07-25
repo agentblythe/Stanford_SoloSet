@@ -36,7 +36,7 @@ struct CardView: View {
     }
     
     private let cardShape = RoundedRectangle(cornerRadius: DrawingConstants.cornerRadius)
-    
+
     private func front(of card: Card, in size: CGSize) -> some View {
         ZStack {
             cardShape.strokeBorder()
@@ -57,9 +57,18 @@ struct CardView: View {
         }
     }
     
+    private func back(of card: Card, in size: CGSize) -> some View {
+        cardShape.fill()
+    }
+    
     var body: some View {
         GeometryReader { geometry in
-            front(of: card, in: geometry.size)
+            if card.isSelected {
+                front(of: card, in: geometry.size)
+                    .border(Color.blue, width: 5)
+            } else {
+                front(of: card, in: geometry.size)
+            }
         }
     }
 }

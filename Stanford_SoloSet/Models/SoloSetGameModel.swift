@@ -23,4 +23,14 @@ struct SoloSetGameModel<Card: SetCard> {
         
         discardCards = []
     }
+    
+    mutating func select(_ card: Card) {
+        if let chosenIndex = dealtCards.firstIndex(where: {
+            $0.id == card.id
+        }) {
+            dealtCards[chosenIndex].isSelected.toggle()
+        }
+    }
+    
+    
 }

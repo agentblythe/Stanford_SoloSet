@@ -8,6 +8,11 @@
 import Foundation
 
 struct Card: SetCard {
+    
+    var isFaceUp: Bool = false
+    
+    var isSelected: Bool = false
+    
     init(property1: Number, property2: Shape, property3: Shading, property4: ValidColor) {
         self.number = property1
         self.shape = property2

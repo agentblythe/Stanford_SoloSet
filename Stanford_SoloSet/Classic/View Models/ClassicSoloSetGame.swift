@@ -25,4 +25,9 @@ class ClassicSoloSetGame: ObservableObject {
     init() {
         model = SoloSetGameModel(cardGetter: Card.getAll)
     }
+    
+    // MARK: - Intent(s)
+    func select(_ card: Card) {
+        model.select(card)
+    }
 }

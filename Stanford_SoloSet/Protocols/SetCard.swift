@@ -20,4 +20,8 @@ protocol SetCard: Identifiable
          property4: Property4)
     
     static func getAll() -> [Self]
+    
+    var isFaceUp: Bool { get set }
+    
+    var isSelected: Bool { get set }
 }

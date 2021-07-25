@@ -19,6 +19,10 @@ struct GameView: View {
     var body: some View {
         AspectVGrid(items: game.dealtCards, aspectRatio: DrawingConstants.aspectRatio, spacing: DrawingConstants.cardSpacing, minimumCardWidth: DrawingConstants.minimumCardWidth) { card in
             CardView(card: card)
+                .onTapGesture {
+                    print("tap")
+                    game.select(card)
+                }
         }
     }
 }
