@@ -12,7 +12,7 @@ struct SoloSetGameModel<Card: SetCard> {
     private(set) var discardCards: Array<Card> = []
     private(set) var dealtCards: Array<Card> = []
     
-    var selectedIndices: [Int]?
+    var selectedIndices: [Int]? = nil
     
     init(cardGetter: () -> [Card]) {
         
@@ -43,33 +43,53 @@ struct SoloSetGameModel<Card: SetCard> {
             }
         }
         
-        dealtCards[chosenIndex].isSelected.toggle()
-    
-        if dealtCards.count(where: { $0.isSelected }) == 0 {
-            selectedIndices = nil
-        } else {
-            if selectedIndices == nil {
-                selectedIndices = [Int]()
-            }
+        if selectedIndices == nil {
+            selectedIndices = [Int]()
             selectedIndices!.append(chosenIndex)
-            
-            if selectedIndices!.count == 3 {
-                if setSelected(selectedIndices!.map { dealtCards[$0] }) {
-                    for i in selectedIndices! {
-                        dealtCards[i].isMatched = true
-                        dealtCards[i].isNotMatched = false
-                    }
-                } else {
-                    for i in selectedIndices! {
-                        dealtCards[i].isMatched = false
-                        dealtCards[i].isNotMatched = true
-                    }
+        } else {
+            if dealtCards[chosenIndex].isSelected {
+                selectedIndices!.removeAll(where: { $0 == chosenIndex })
+            } else {
+                selectedIndices!.append(chosenIndex)
+            }
+        }
+    
+        dealtCards[chosenIndex].isSelected.toggle()
+        
+        if selectedIndices!.count == 3 {
+            if setSelected(selectedIndices!.map { dealtCards[$0] }) {
+                for i in selectedIndices! {
+                    dealtCards[i].isMatched = true
+                    dealtCards[i].isNotMatched = false
                 }
+                
+                replaceMatchedCards(indices: selectedIndices!)
+            } else {
+                for i in selectedIndices! {
+                    dealtCards[i].isMatched = false
+                    dealtCards[i].isNotMatched = true
+                }
+            }
+            
+            selectedIndices = nil
+        }
+    
+    }
+    
+    private mutating func replaceMatchedCards(indices: [Int]) {
+        if indices.count != 3 {
+            return
+        }
+        
+        for i in indices {
+            discardCards.append(dealtCards[i])
+            if undealtCards.count > 0 {
+                dealtCards[i] = undealtCards.removeFirst()
             }
         }
     }
     
-    func setSelected(_ set: [Card]) -> Bool {
+    private func setSelected(_ set: [Card]) -> Bool {
         var property1Set = Set<Card.Property1>()
         var property2Set = Set<Card.Property2>()
         var property3Set = Set<Card.Property3>()
@@ -115,5 +135,7 @@ struct SoloSetGameModel<Card: SetCard> {
         undealtCards.removeFirst(12)
         
         discardCards = []
+        
+        selectedIndices = nil
     }
 }
