@@ -5,33 +5,34 @@
 //  Created by Steve Blythe on 26/07/2021.
 //
 
-
 import SwiftUI
 
-struct AspectVGrid<Item: Identifiable, ItemView: View>: View {
+struct AspectVGrid<Item, ItemView>: View where ItemView: View, Item: Identifiable {
+    
     var items: [Item]
     var aspectRatio: CGFloat
-    var spacing: CGFloat
+    var minimumWidth: CGFloat
     var content: (Item) -> ItemView
-    var minimumWidth: CGFloat = 80.0
     
-    init(items: [Item], aspectRatio: CGFloat, spacing: CGFloat = 5.0, @ViewBuilder content: @escaping (Item) -> ItemView) {
+    init(items: [Item], aspectRatio: CGFloat, minimumWidth: CGFloat = 80.0, @ViewBuilder content: @escaping (Item) -> ItemView) {
         self.items = items
         self.aspectRatio = aspectRatio
-        self.spacing = spacing
+        self.minimumWidth = minimumWidth
         self.content = content
     }
+    
     
     var body: some View {
         GeometryReader { geometry in
             ScrollView {
                 VStack {
-                    LazyVGrid(columns: [adaptiveGridItem(width: widthThatFits(in: geometry.size))], spacing: 0.0) {
+                    let width = widthThatFits(itemCount: items.count, in: geometry.size, itemAspectRatio: aspectRatio)
+                    LazyVGrid(columns: [adaptiveGridItem(width: width)], spacing: 0.0, content: {
                         ForEach(items) { item in
-                            content(item)
-                                .aspectRatio(aspectRatio, contentMode: .fit)
+                            content(item).aspectRatio(aspectRatio, contentMode: .fit)
                         }
-                    }
+                        
+                    })
                     Spacer(minLength: 0)
                 }
             }
@@ -39,46 +40,29 @@ struct AspectVGrid<Item: Identifiable, ItemView: View>: View {
     }
     
     private func adaptiveGridItem(width: CGFloat) -> GridItem {
-        var gridItem = GridItem(.adaptive(minimum: width))
-        gridItem.spacing = 0.0
-        return gridItem
+        GridItem(.adaptive(minimum: width), spacing: 0.0)
     }
     
-    private func widthThatFits(in size: CGSize) -> CGFloat {
-        let itemCount = items.count
-
-        var columns = 1
-        var rows = itemCount
-
-        var width: CGFloat
-        var height: CGFloat
-        
+    private func widthThatFits(itemCount: Int, in size: CGSize, itemAspectRatio: CGFloat) -> CGFloat {
+        var columnCount = 1
+        var rowCount = itemCount
         repeat {
-            width = (size.width - (spacing * CGFloat(columns - 1))) / CGFloat(columns)
-
-            height = width / aspectRatio
-
-            if (CGFloat(rows) * height) + (spacing * CGFloat(rows - 1)) < size.height {
+            let itemWidth = size.width / CGFloat(columnCount)
+            let itemHeight = itemWidth / itemAspectRatio
+            if CGFloat(rowCount) * itemHeight < size.height {
                 break
             }
-            columns += 1
-            rows = (itemCount + (columns - 1)) /  columns
-        } while columns < itemCount
-
-        if columns > itemCount {
-            columns = itemCount
+            columnCount += 1
+            rowCount = (itemCount + (columnCount - 1)) / columnCount
+        } while columnCount < itemCount
+        
+        if columnCount > itemCount {
+            columnCount = itemCount
         }
-
-        let calculatedSize = floor((size.width - (spacing * CGFloat(columns - 1))) / CGFloat(columns))
-
-        print(calculatedSize)
-        print(minimumWidth)
-        print(size.width)
-
-        return max(minimumWidth, calculatedSize)
+        let calculatedWidth = floor(size.width / CGFloat(columnCount))
+        return max(minimumWidth, calculatedWidth)
     }
 }
-
 
 struct AspectVGrid_Previews: PreviewProvider {
     static var previews: some View {

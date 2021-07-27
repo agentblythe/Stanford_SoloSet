@@ -85,6 +85,7 @@ struct GameView: View {
                         .padding(2)
 
                 }
+                .frame(maxHeight: geometry.size.height * 0.9)
                 
                 bottomToolbar
             }

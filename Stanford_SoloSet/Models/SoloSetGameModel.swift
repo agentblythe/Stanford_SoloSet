@@ -19,10 +19,10 @@ struct SoloSetGameModel<Card: SetCard> {
         undealtCards = cardGetter()
         undealtCards.shuffle()
         
-        for i in 0..<3 {
+        for i in 0..<12 {
             dealtCards.append(undealtCards[i])
         }
-        undealtCards.removeFirst(3)
+        undealtCards.removeFirst(12)
         
         discardCards = []
     }
