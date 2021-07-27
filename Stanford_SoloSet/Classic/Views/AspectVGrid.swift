@@ -2,28 +2,23 @@
 //  AspectVGrid.swift
 //  Stanford_SoloSet
 //
-//  Created by Steve Blythe on 24/07/2021.
+//  Created by Steve Blythe on 26/07/2021.
 //
+
 
 import SwiftUI
 
-struct AspectVGrid<Item: Identifiable,
-                   ItemView: View>: View {
+struct AspectVGrid<Item: Identifiable, ItemView: View>: View {
     var items: [Item]
     var aspectRatio: CGFloat
     var spacing: CGFloat
-    var minimumCardWidth: CGFloat
     var content: (Item) -> ItemView
+    var minimumWidth: CGFloat = 80.0
     
-    init(items: [Item],
-         aspectRatio: CGFloat,
-         spacing: CGFloat = 5.0,
-         minimumCardWidth: CGFloat = 85.0,
-         @ViewBuilder content: @escaping (Item) -> ItemView) {
+    init(items: [Item], aspectRatio: CGFloat, spacing: CGFloat = 5.0, @ViewBuilder content: @escaping (Item) -> ItemView) {
         self.items = items
         self.aspectRatio = aspectRatio
         self.spacing = spacing
-        self.minimumCardWidth = minimumCardWidth
         self.content = content
     }
     
@@ -31,7 +26,7 @@ struct AspectVGrid<Item: Identifiable,
         GeometryReader { geometry in
             ScrollView {
                 VStack {
-                    LazyVGrid(columns: [adaptiveGridItem(width: widthThatFits(in: geometry.size))], spacing: spacing) {
+                    LazyVGrid(columns: [adaptiveGridItem(width: widthThatFits(in: geometry.size))], spacing: 0.0) {
                         ForEach(items) { item in
                             content(item)
                                 .aspectRatio(aspectRatio, contentMode: .fit)
@@ -45,7 +40,7 @@ struct AspectVGrid<Item: Identifiable,
     
     private func adaptiveGridItem(width: CGFloat) -> GridItem {
         var gridItem = GridItem(.adaptive(minimum: width))
-        gridItem.spacing = spacing
+        gridItem.spacing = 0.0
         return gridItem
     }
     
@@ -54,35 +49,40 @@ struct AspectVGrid<Item: Identifiable,
 
         var columns = 1
         var rows = itemCount
-        
+
         var width: CGFloat
         var height: CGFloat
         
         repeat {
             width = (size.width - (spacing * CGFloat(columns - 1))) / CGFloat(columns)
-            
+
             height = width / aspectRatio
-            
+
             if (CGFloat(rows) * height) + (spacing * CGFloat(rows - 1)) < size.height {
                 break
             }
             columns += 1
             rows = (itemCount + (columns - 1)) /  columns
         } while columns < itemCount
-        
+
         if columns > itemCount {
             columns = itemCount
         }
-        
-        let calculatedWidth = floor((size.width - (spacing * CGFloat(columns - 1))) / CGFloat(columns))
-        
-        return max(minimumCardWidth, calculatedWidth)
+
+        let calculatedSize = floor((size.width - (spacing * CGFloat(columns - 1))) / CGFloat(columns))
+
+        print(calculatedSize)
+        print(minimumWidth)
+        print(size.width)
+
+        return max(minimumWidth, calculatedSize)
     }
 }
 
+
 struct AspectVGrid_Previews: PreviewProvider {
     static var previews: some View {
-        AspectVGrid<Card, CardView>(items: ClassicSoloSetGame().undealtCards, aspectRatio: 2/3, spacing: 5.0) { card in
+        AspectVGrid(items: ClassicSoloSetGame().dealtCards, aspectRatio: 2/3) { card in
             CardView(card: card)
         }
     }

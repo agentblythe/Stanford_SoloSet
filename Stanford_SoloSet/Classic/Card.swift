@@ -8,10 +8,13 @@
 import Foundation
 
 struct Card: SetCard {
-    
     var isFaceUp: Bool = false
     
     var isSelected: Bool = false
+    
+    var isMatched: Bool = false
+    
+    var isNotMatched: Bool = false
     
     init(property1: Number, property2: Shape, property3: Shading, property4: ValidColor) {
         self.number = property1
@@ -44,25 +47,33 @@ struct Card: SetCard {
     var shading: Shading
     var color: ValidColor
     
-    enum Number: Int, CaseIterable {
+    enum Number: Int, CaseIterable, SetProperty {
+        typealias Content = Self
+        
         case one = 1
         case two
         case three
     }
     
-    enum Shape: CaseIterable {
+    enum Shape: CaseIterable, SetProperty {
+        typealias Content = Self
+        
         case diamond
         case wave
         case capsule
     }
     
-    enum Shading: CaseIterable {
+    enum Shading: CaseIterable, SetProperty {
+        typealias Content = Self
+        
         case none
         case stripes
         case fill
     }
     
-    enum ValidColor: CaseIterable {
+    enum ValidColor: CaseIterable, SetProperty {
+        typealias Content = Self
+        
         case green
         case purple
         case pink

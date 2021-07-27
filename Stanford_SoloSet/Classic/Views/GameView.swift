@@ -13,16 +13,81 @@ struct GameView: View {
     private struct DrawingConstants {
         static let aspectRatio: CGFloat = 2/3
         static let cardSpacing: CGFloat = 5.0
-        static let minimumCardWidth: CGFloat = 100.0
+        static let minimumCardWidth: CGFloat = 50.0
+    }
+    
+    var hintButton: some View {
+        Button(action: {
+            
+        }, label: {
+            Text("Hint")
+        })
+    }
+    
+    var dealButton: some View {
+        Button(action: {
+            game.dealMoreCards()
+        }, label: {
+            Text("Deal 3")
+        })
+    }
+    
+    var newGameButton: some View {
+        Button(action: {
+            game.resetGame()
+        }, label: {
+            Text("New Game")
+        })
+    }
+    
+    var topToolbar: some View {
+        HStack {
+            Text("Matched Cards: \(game.discardCards.count)")
+            
+            Spacer()
+            
+            Text("Undealt cards: \(game.undealtCards.count)")
+        }
+        .padding(.horizontal)
+    }
+    
+    var bottomToolbar: some View {
+        HStack(spacing: 0.0) {
+            hintButton
+                .toolbarButton()
+                .frame(minWidth: 0, maxWidth: .infinity)
+  
+            dealButton
+                .toolbarButton()
+                .disabled(game.undealtCards.count == 0)
+                .frame(minWidth: 0, maxWidth: .infinity)
+  
+            newGameButton
+                .toolbarButton()
+                .frame(minWidth: 0, maxWidth: .infinity)
+
+        }
+        .foregroundColor(Color.black).font(.headline)
+
     }
     
     var body: some View {
-        AspectVGrid(items: game.dealtCards, aspectRatio: DrawingConstants.aspectRatio, spacing: DrawingConstants.cardSpacing, minimumCardWidth: DrawingConstants.minimumCardWidth) { card in
-            CardView(card: card)
-                .onTapGesture {
-                    print("tap")
-                    game.select(card)
+        GeometryReader { geometry in
+            VStack {
+                topToolbar
+                
+                AspectVGrid(items: game.dealtCards, aspectRatio: 2/3) { card in
+                    CardView(card: card)
+                        .contentShape(Rectangle())
+                        .onTapGesture {
+                            game.select(card)
+                        }
+                        .padding(2)
+
                 }
+                
+                bottomToolbar
+            }
         }
     }
 }

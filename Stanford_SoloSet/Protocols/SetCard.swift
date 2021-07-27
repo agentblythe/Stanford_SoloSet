@@ -7,12 +7,12 @@
 
 import Foundation
 
-protocol SetCard: Identifiable
+protocol SetCard: Identifiable, Equatable
 {
-    associatedtype Property1: Equatable, CaseIterable
-    associatedtype Property2: Equatable, CaseIterable
-    associatedtype Property3: Equatable, CaseIterable
-    associatedtype Property4: Equatable, CaseIterable
+    associatedtype Property1: SetProperty, CaseIterable, Hashable
+    associatedtype Property2: SetProperty, CaseIterable, Hashable
+    associatedtype Property3: SetProperty, CaseIterable, Hashable
+    associatedtype Property4: SetProperty, CaseIterable, Hashable
     
     init(property1: Property1,
          property2: Property2,
@@ -24,4 +24,18 @@ protocol SetCard: Identifiable
     var isFaceUp: Bool { get set }
     
     var isSelected: Bool { get set }
+    
+    var isMatched: Bool { get set }
+    
+    var isNotMatched: Bool { get set }
+    
+    var property1: Property1 { get }
+    var property2: Property2 { get }
+    var property3: Property3 { get }
+    var property4: Property4 { get }
 }
+
+protocol SetProperty {
+    associatedtype Content: Equatable
+}
+

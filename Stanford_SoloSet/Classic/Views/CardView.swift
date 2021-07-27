@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CardView: View {
-    var card: Card
+    let card: Card
     
     var number: Int {
         card.number.rawValue
@@ -64,8 +64,16 @@ struct CardView: View {
     var body: some View {
         GeometryReader { geometry in
             if card.isSelected {
-                front(of: card, in: geometry.size)
-                    .border(Color.blue, width: 5)
+                if card.isMatched {
+                    front(of: card, in: geometry.size)
+                        .border(Color.green, width: 5)
+                } else if card.isNotMatched {
+                    front(of: card, in: geometry.size)
+                        .border(Color.red, width: 5)
+                } else {
+                    front(of: card, in: geometry.size)
+                        .border(Color.blue, width: 5)
+                }
             } else {
                 front(of: card, in: geometry.size)
             }

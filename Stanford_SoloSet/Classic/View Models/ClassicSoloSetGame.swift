@@ -30,4 +30,12 @@ class ClassicSoloSetGame: ObservableObject {
     func select(_ card: Card) {
         model.select(card)
     }
+    
+    func dealMoreCards() {
+        model.dealMoreCards()
+    }
+    
+    func resetGame() {
+        model.resetGame()
+    }
 }
