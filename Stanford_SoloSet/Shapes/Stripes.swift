@@ -27,12 +27,13 @@ struct StripedPattern: Shape {
                     height: Int(rect.height)))
             }
         }
-        return path
+        return path.scale(2.0).transform(.init(rotationAngle: CGFloat(Angle(degrees: 10.0).radians))).path(in: rect)
     }
+        
 }
 
 struct Striped_Previews: PreviewProvider {
     static var previews: some View {
-        StripedPattern(widthOfStripe: 5)
+        StripedPattern(widthOfStripe: 2)
     }
 }

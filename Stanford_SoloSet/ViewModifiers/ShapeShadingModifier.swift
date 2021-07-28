@@ -16,7 +16,7 @@ struct ShapeShadingModifier: ViewModifier {
             content
                 .foregroundColor(.clear)
         case .stripes:
-            StripedPattern(widthOfStripe: 10).mask(content)
+            StripedPattern(widthOfStripe: 5).mask(content)
         case .fill:
             content
         }
