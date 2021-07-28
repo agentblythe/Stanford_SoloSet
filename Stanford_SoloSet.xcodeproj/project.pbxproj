@@ -15,6 +15,7 @@
 		4915983B26AF2C3F009E7D6A /* ToolbarButtonModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4915983A26AF2C3F009E7D6A /* ToolbarButtonModifier.swift */; };
 		4915983D26AF47F5009E7D6A /* Collection+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4915983C26AF47F5009E7D6A /* Collection+.swift */; };
 		4915983F26AF510A009E7D6A /* AspectVGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4915983E26AF510A009E7D6A /* AspectVGrid.swift */; };
+		4915984126B1DF9E009E7D6A /* Squiggle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4915984026B1DF9E009E7D6A /* Squiggle.swift */; };
 		4922B42426A60BBC002A8109 /* Stanford_SoloSetApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4922B42326A60BBC002A8109 /* Stanford_SoloSetApp.swift */; };
 		4922B42826A60BBF002A8109 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4922B42726A60BBF002A8109 /* Assets.xcassets */; };
 		4922B42B26A60BBF002A8109 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4922B42A26A60BBF002A8109 /* Preview Assets.xcassets */; };
@@ -39,6 +40,7 @@
 		4915983A26AF2C3F009E7D6A /* ToolbarButtonModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolbarButtonModifier.swift; sourceTree = "<group>"; };
 		4915983C26AF47F5009E7D6A /* Collection+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Collection+.swift"; sourceTree = "<group>"; };
 		4915983E26AF510A009E7D6A /* AspectVGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AspectVGrid.swift; sourceTree = "<group>"; };
+		4915984026B1DF9E009E7D6A /* Squiggle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Squiggle.swift; sourceTree = "<group>"; };
 		4922B42026A60BBC002A8109 /* Stanford_SoloSet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Stanford_SoloSet.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4922B42326A60BBC002A8109 /* Stanford_SoloSetApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stanford_SoloSetApp.swift; sourceTree = "<group>"; };
 		4922B42726A60BBF002A8109 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -132,6 +134,7 @@
 				4922B44326A61A8C002A8109 /* Diamond.swift */,
 				4922B44C26A725FD002A8109 /* Wave.swift */,
 				497FBFAD26A9F598007D9819 /* Stripes.swift */,
+				4915984026B1DF9E009E7D6A /* Squiggle.swift */,
 			);
 			path = Shapes;
 			sourceTree = "<group>";
@@ -271,6 +274,7 @@
 				4922B46626A84308002A8109 /* Card.swift in Sources */,
 				4922B42426A60BBC002A8109 /* Stanford_SoloSetApp.swift in Sources */,
 				4922B43E26A60F6B002A8109 /* SoloSetGameModel.swift in Sources */,
+				4915984126B1DF9E009E7D6A /* Squiggle.swift in Sources */,
 				4915982826AC9E79009E7D6A /* ShapeView.swift in Sources */,
 				4915983D26AF47F5009E7D6A /* Collection+.swift in Sources */,
 				4922B44426A61A8C002A8109 /* Diamond.swift in Sources */,

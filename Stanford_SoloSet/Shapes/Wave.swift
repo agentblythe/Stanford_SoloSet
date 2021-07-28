@@ -26,18 +26,18 @@ struct Wave: Shape {
         
         let width  = rect.width
         let height = rect.height
-        
+
         let a = CGPoint(x: rect.minX, y: height * DrawingConstants.leftY)
         let b = CGPoint(x: rect.minX + width * DrawingConstants.leftX, y: rect.minY + height * DrawingConstants.leftYInset)
         let e = CGPoint(x: rect.maxX, y: height * DrawingConstants.rightY)
         let f = CGPoint(x: rect.maxX * DrawingConstants.rightX, y: rect.maxY * DrawingConstants.rightYInset)
-    
+
         let c = CGPoint(x: rect.width * DrawingConstants.leftCurveX, y: rect.height * DrawingConstants.leftCurveY)
         let d = CGPoint(x: rect.width * DrawingConstants.rightCurveX, y: rect.minY)
-        
+
         let g = CGPoint(x: d.x, y: rect.height * DrawingConstants.rightCurveY)
         let h = CGPoint(x: c.x, y: rect.height)
-        
+
         var p = Path()
         p.move(to: a)
         p.addLine(to: b)

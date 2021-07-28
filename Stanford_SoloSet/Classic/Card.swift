@@ -59,7 +59,7 @@ struct Card: SetCard {
         typealias Content = Self
         
         case diamond
-        case wave
+        case squiggle
         case capsule
     }
     
