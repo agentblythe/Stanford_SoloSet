@@ -13,6 +13,7 @@ struct SoloSetGameModel<Card: SetCard> {
     private(set) var dealtCards: Array<Card> = []
     
     var selectedIndices: [Int]? = nil
+    var matchFound = false
     
     init(cardGetter: () -> [Card]) {
         
@@ -32,47 +33,105 @@ struct SoloSetGameModel<Card: SetCard> {
             $0.id == card.id
         }) else { return }
         
+        // Assignment 3 logic (pre animation)
         if let indices = selectedIndices {
             if indices.count == 3 {
-                for i in dealtCards.indices {
-                    dealtCards[i].isSelected = false
-                    dealtCards[i].isMatched = false
-                    dealtCards[i].isNotMatched = false
+                if matchFound {
+                    if selectedIndices!.contains(chosenIndex) {
+                        selectedIndices = nil
+                        replaceMatchedCards(indices: indices)
+                    } else {
+                        replaceMatchedCards(indices: indices)
+                        selectedIndices = [Int]()
+                        dealtCards[chosenIndex].isSelected = true
+                        selectedIndices!.append(chosenIndex)
+                    }
+                    
+                    matchFound = false
+                } else {
+                    for i in selectedIndices! {
+                        dealtCards[i].isSelected = false
+                        dealtCards[i].isMatched = false
+                        dealtCards[i].isNotMatched = false
+                    }
+                    
+                    selectedIndices = [Int]()
+                    dealtCards[chosenIndex].isSelected = true
+                    selectedIndices!.append(chosenIndex)
+                    matchFound = false
                 }
-                selectedIndices = nil
+            } else {
+                if selectedIndices!.contains(chosenIndex) {
+                    dealtCards[chosenIndex].isSelected = false
+                    selectedIndices!.removeAll(where: {$0 == chosenIndex})
+                } else {
+                    dealtCards[chosenIndex].isSelected = true
+                    selectedIndices!.append(chosenIndex)
+                    if selectedIndices!.count == 3 {
+                        if setSelected(selectedIndices!.map { dealtCards[$0] }) {
+                            matchFound = true
+                            for i in selectedIndices! {
+                                dealtCards[i].isMatched = true
+                                dealtCards[i].isNotMatched = false
+                            }
+                        } else {
+                            matchFound = false
+                            for i in selectedIndices! {
+                                dealtCards[i].isMatched = false
+                                dealtCards[i].isNotMatched = true
+                            }
+                        }
+                    }
+                }
             }
-        }
-        
-        if selectedIndices == nil {
+        } else {
             selectedIndices = [Int]()
             selectedIndices!.append(chosenIndex)
-        } else {
-            if dealtCards[chosenIndex].isSelected {
-                selectedIndices!.removeAll(where: { $0 == chosenIndex })
-            } else {
-                selectedIndices!.append(chosenIndex)
-            }
+            dealtCards[chosenIndex].isSelected = true
         }
-    
-        dealtCards[chosenIndex].isSelected.toggle()
+ 
         
-        if selectedIndices!.count == 3 {
-            if setSelected(selectedIndices!.map { dealtCards[$0] }) {
-                for i in selectedIndices! {
-                    dealtCards[i].isMatched = true
-                    dealtCards[i].isNotMatched = false
-                }
-                
-                replaceMatchedCards(indices: selectedIndices!)
-            } else {
-                for i in selectedIndices! {
-                    dealtCards[i].isMatched = false
-                    dealtCards[i].isNotMatched = true
-                }
-            }
-            
-            selectedIndices = nil
-        }
+        
+//        if let indices = selectedIndices {
+//            if indices.count == 3 {
+//                for i in dealtCards.indices {
+//                    dealtCards[i].isSelected = false
+//                    dealtCards[i].isMatched = false
+//                    dealtCards[i].isNotMatched = false
+//                }
+//                selectedIndices = nil
+//            }
+//        }
+        
+//        if selectedIndices == nil {
+//            selectedIndices = [Int]()
+//            selectedIndices!.append(chosenIndex)
+//        } else {
+//            if dealtCards[chosenIndex].isSelected {
+//                selectedIndices!.removeAll(where: { $0 == chosenIndex })
+//            } else {
+//                selectedIndices!.append(chosenIndex)
+//            }
+//        }
+    
+//        dealtCards[chosenIndex].isSelected.toggle()
+//
+//        if selectedIndices!.count == 3 {
+//            if setSelected(selectedIndices!.map { dealtCards[$0] }) {
+//                for i in selectedIndices! {
+//                    dealtCards[i].isMatched = true
+//                    dealtCards[i].isNotMatched = false
+//                }
+//
+//                replaceMatchedCards(indices: selectedIndices!)
+//            } else {
+//                for i in selectedIndices! {
+//                    dealtCards[i].isMatched = false
+//                    dealtCards[i].isNotMatched = true
+//                }
+//            }
+//            selectedIndices = nil
+//        }
     
     }
     
@@ -85,6 +144,8 @@ struct SoloSetGameModel<Card: SetCard> {
             discardCards.append(dealtCards[i])
             if undealtCards.count > 0 {
                 dealtCards[i] = undealtCards.removeFirst()
+            } else {
+                dealtCards.remove(at: i)
             }
         }
     }
@@ -119,6 +180,11 @@ struct SoloSetGameModel<Card: SetCard> {
             }
             undealtCards.removeFirst(3)
         }
+        
+        for i in dealtCards.indices {
+            dealtCards[i].isSelected = false
+        }
+        selectedIndices = nil
     }
     
     mutating func resetGame() {
