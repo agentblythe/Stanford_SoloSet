@@ -22,6 +22,21 @@ class ClassicSoloSetGame: ObservableObject {
         return model.dealtCards
     }
     
+    var score: Int {
+        return model.score
+    }
+    
+    var setAvailable: Bool {
+        return model.setAvailable
+    }
+    
+    var firstAvailableSet: [Card]! {
+        if model.setAvailable {
+            return model.availableSets().first
+        }
+        return nil
+    }
+    
     init() {
         model = SoloSetGameModel(cardGetter: Card.getAll)
     }

@@ -15,6 +15,12 @@ struct SoloSetGameModel<Card: SetCard> {
     var selectedIndices: [Int]? = nil
     var matchFound = false
     
+    var score: Int = 0
+    
+    var setAvailable: Bool {
+        return availableSets().count > 0
+    }
+    
     init(cardGetter: () -> [Card]) {
         
         undealtCards = cardGetter()
@@ -26,6 +32,8 @@ struct SoloSetGameModel<Card: SetCard> {
         undealtCards.removeFirst(12)
         
         discardCards = []
+        
+        score = 0
     }
     
     mutating func select(_ card: Card) {
@@ -68,17 +76,22 @@ struct SoloSetGameModel<Card: SetCard> {
                     dealtCards[chosenIndex].isSelected = true
                     selectedIndices!.append(chosenIndex)
                     if selectedIndices!.count == 3 {
-                        if setSelected(selectedIndices!.map { dealtCards[$0] }) {
+                        if cardsFormASet(selectedIndices!.map { dealtCards[$0] }) {
                             matchFound = true
                             for i in selectedIndices! {
                                 dealtCards[i].isMatched = true
                                 dealtCards[i].isNotMatched = false
                             }
+                            score += 3
                         } else {
                             matchFound = false
                             for i in selectedIndices! {
                                 dealtCards[i].isMatched = false
                                 dealtCards[i].isNotMatched = true
+                            }
+                            
+                            if availableSets().count > 0 {
+                                score -= 1
                             }
                         }
                     }
@@ -150,7 +163,25 @@ struct SoloSetGameModel<Card: SetCard> {
         }
     }
     
-    private func setSelected(_ set: [Card]) -> Bool {
+    func availableSets() -> [ [Card] ] {
+        let cardCount = dealtCards.count
+        var availableSets = [ [Card] ]()
+        
+        for i in 0..<cardCount {
+            for j in (i+1)..<cardCount {
+                for k in (j+1)..<cardCount {
+                    let set = [dealtCards[i], dealtCards[j], dealtCards[k]]
+                    if cardsFormASet(set) {
+                        availableSets.append(set)
+                    }
+                }
+            }
+        }
+        
+        return availableSets
+    }
+    
+    private func cardsFormASet(_ set: [Card]) -> Bool {
         var property1Set = Set<Card.Property1>()
         var property2Set = Set<Card.Property2>()
         var property3Set = Set<Card.Property3>()
@@ -174,6 +205,10 @@ struct SoloSetGameModel<Card: SetCard> {
     }
     
     mutating func dealMoreCards() {
+        if availableSets().count > 0 {
+            score -= 2
+        }
+        
         if undealtCards.count >= 3 {
             for i in 0..<3 {
                 dealtCards.append(undealtCards[i])
@@ -203,5 +238,7 @@ struct SoloSetGameModel<Card: SetCard> {
         discardCards = []
         
         selectedIndices = nil
+        
+        score = 0
     }
 }

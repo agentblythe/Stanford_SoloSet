@@ -16,6 +16,7 @@
 		4915983D26AF47F5009E7D6A /* Collection+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4915983C26AF47F5009E7D6A /* Collection+.swift */; };
 		4915983F26AF510A009E7D6A /* AspectVGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4915983E26AF510A009E7D6A /* AspectVGrid.swift */; };
 		4915984126B1DF9E009E7D6A /* Squiggle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4915984026B1DF9E009E7D6A /* Squiggle.swift */; };
+		4915984526B3F23A009E7D6A /* HintHighlightModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4915984426B3F23A009E7D6A /* HintHighlightModifier.swift */; };
 		4922B42426A60BBC002A8109 /* Stanford_SoloSetApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4922B42326A60BBC002A8109 /* Stanford_SoloSetApp.swift */; };
 		4922B42826A60BBF002A8109 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4922B42726A60BBF002A8109 /* Assets.xcassets */; };
 		4922B42B26A60BBF002A8109 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4922B42A26A60BBF002A8109 /* Preview Assets.xcassets */; };
@@ -41,6 +42,7 @@
 		4915983C26AF47F5009E7D6A /* Collection+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Collection+.swift"; sourceTree = "<group>"; };
 		4915983E26AF510A009E7D6A /* AspectVGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AspectVGrid.swift; sourceTree = "<group>"; };
 		4915984026B1DF9E009E7D6A /* Squiggle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Squiggle.swift; sourceTree = "<group>"; };
+		4915984426B3F23A009E7D6A /* HintHighlightModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HintHighlightModifier.swift; sourceTree = "<group>"; };
 		4922B42026A60BBC002A8109 /* Stanford_SoloSet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Stanford_SoloSet.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4922B42326A60BBC002A8109 /* Stanford_SoloSetApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stanford_SoloSetApp.swift; sourceTree = "<group>"; };
 		4922B42726A60BBF002A8109 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -75,6 +77,7 @@
 				4915982A26ACA0B4009E7D6A /* ShapeColorModifier.swift */,
 				4915982C26ACA159009E7D6A /* ShapeShadingModifier.swift */,
 				4915983A26AF2C3F009E7D6A /* ToolbarButtonModifier.swift */,
+				4915984426B3F23A009E7D6A /* HintHighlightModifier.swift */,
 			);
 			path = ViewModifiers;
 			sourceTree = "<group>";
@@ -266,6 +269,7 @@
 			files = (
 				4922B46A26A84442002A8109 /* ClassicSoloSetGame.swift in Sources */,
 				4922B46426A84279002A8109 /* SetCard.swift in Sources */,
+				4915984526B3F23A009E7D6A /* HintHighlightModifier.swift in Sources */,
 				4915983F26AF510A009E7D6A /* AspectVGrid.swift in Sources */,
 				4915982F26ACA1A7009E7D6A /* View+.swift in Sources */,
 				4915983B26AF2C3F009E7D6A /* ToolbarButtonModifier.swift in Sources */,

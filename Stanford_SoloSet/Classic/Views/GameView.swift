@@ -16,9 +16,15 @@ struct GameView: View {
         static let minimumCardWidth: CGFloat = 50.0
     }
     
+    @State var showHint = false
+    
+    var availableSet: [Card]! {
+        return game.firstAvailableSet
+    }
+    
     var hintButton: some View {
         Button(action: {
-            
+            showHint.toggle()
         }, label: {
             Text("Hint")
         })
@@ -52,22 +58,31 @@ struct GameView: View {
     }
     
     var bottomToolbar: some View {
-        HStack(spacing: 0.0) {
-            hintButton
-                .toolbarButton()
-                .frame(minWidth: 0, maxWidth: .infinity)
-  
-            dealButton
-                .toolbarButton()
-                .disabled(game.undealtCards.count == 0)
-                .frame(minWidth: 0, maxWidth: .infinity)
-  
-            newGameButton
-                .toolbarButton()
-                .frame(minWidth: 0, maxWidth: .infinity)
+        VStack {
+            HStack(spacing: 0.0) {
+                hintButton
+                    .toolbarButton()
+                    .highlight(highlight: game.setAvailable)
+                    .disabled(!game.setAvailable)
+                    .frame(minWidth: 0, maxWidth: .infinity)
+      
+                dealButton
+                    .toolbarButton()
+                    .disabled(game.undealtCards.count == 0)
+                    .frame(minWidth: 0, maxWidth: .infinity)
+      
+                newGameButton
+                    .toolbarButton()
+                    .frame(minWidth: 0, maxWidth: .infinity)
 
+            }
+            .foregroundColor(Color.black).font(.headline)
+            
+            HStack {
+                Text("Score: \(game.score)")
+                    .font(.caption)
+            }
         }
-        .foregroundColor(Color.black).font(.headline)
 
     }
     
@@ -80,9 +95,11 @@ struct GameView: View {
                     CardView(card: card)
                         .contentShape(Rectangle())
                         .onTapGesture {
+                            showHint = false
                             game.select(card)
                         }
                         .padding(2)
+                        .border(showHint && game.setAvailable && game.firstAvailableSet.contains(card) ? Color.orange : Color.clear, width: 2.0)
 
                 }
                 .frame(maxHeight: geometry.size.height * 0.9)
