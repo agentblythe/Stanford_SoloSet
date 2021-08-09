@@ -71,12 +71,12 @@ struct Card: SetCard {
         case fill
     }
     
-    enum ValidColor: CaseIterable, SetProperty {
+    enum ValidColor: String, CaseIterable, SetProperty {
         typealias Content = Self
         
-        case green
-        case purple
-        case pink
+        case green = "Green"
+        case purple = "Purple"
+        case pink = "Pink"
     }
     
     static func getAll() -> [Card] {
