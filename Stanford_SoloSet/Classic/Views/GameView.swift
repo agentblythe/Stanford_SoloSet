@@ -18,6 +18,10 @@ struct GameView: View {
     
     @State var showHint = false
     
+    @State var colorBlind = false
+    
+    @State var showingSettings = true
+    
     var availableSet: [Card]! {
         return game.firstAvailableSet
     }
@@ -48,11 +52,11 @@ struct GameView: View {
     
     var topToolbar: some View {
         HStack {
-            Text("Matched Cards: \(game.discardCards.count)")
+            Text("Matched: \(game.discardCards.count)")
             
             Spacer()
             
-            Text("Undealt cards: \(game.undealtCards.count)")
+            Text("Undealt: \(game.undealtCards.count)")
         }
         .padding(.horizontal)
     }
@@ -82,29 +86,35 @@ struct GameView: View {
                 Text("Score: \(game.score)")
                     .font(.caption)
             }
+            .padding(.horizontal)
         }
-
     }
     
     var body: some View {
         GeometryReader { geometry in
-            VStack {
-                topToolbar
-                
-                AspectVGrid(items: game.dealtCards, aspectRatio: 2/3) { card in
-                    CardView(card: card)
-                        .contentShape(Rectangle())
-                        .onTapGesture {
-                            showHint = false
-                            game.select(card)
-                        }
-                        .padding(2)
-                        .border(showHint && game.setAvailable && game.firstAvailableSet.contains(card) ? Color.orange : Color.clear, width: 2.0)
+            ZStack {
+                VStack {
+                    topToolbar
+                    
+                    AspectVGrid(items: game.dealtCards, aspectRatio: 2/3) { card in
+                        CardView(card: card, colorBlind: $colorBlind)
+                            .contentShape(Rectangle())
+                            .onTapGesture {
+                                showHint = false
+                                game.select(card)
+                            }
+                            .padding(2)
+                            .border(showHint && game.setAvailable && game.firstAvailableSet.contains(card) ? Color.orange : Color.clear, width: 2.0)
 
+                    }
+                    .frame(maxHeight: geometry.size.height * 0.9)
+                    
+                    bottomToolbar
                 }
-                .frame(maxHeight: geometry.size.height * 0.9)
+                .disabled(showingSettings)
+                .opacity(showingSettings ? 0.4 : 1.0)
                 
-                bottomToolbar
+                SettingsView(colorBlind: $colorBlind, showing: $showingSettings)
             }
         }
     }

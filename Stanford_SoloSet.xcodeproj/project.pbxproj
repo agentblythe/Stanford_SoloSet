@@ -28,6 +28,7 @@
 		4922B46626A84308002A8109 /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4922B46526A84308002A8109 /* Card.swift */; };
 		4922B46A26A84442002A8109 /* ClassicSoloSetGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4922B46926A84442002A8109 /* ClassicSoloSetGame.swift */; };
 		4922B46E26A84A09002A8109 /* Color+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4922B46D26A84A09002A8109 /* Color+.swift */; };
+		4942AB3D26C1705000CF5B88 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4942AB3C26C1705000CF5B88 /* SettingsView.swift */; };
 		497FBFAC26A8917C007D9819 /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497FBFAB26A8917C007D9819 /* CardView.swift */; };
 		497FBFAE26A9F598007D9819 /* Stripes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497FBFAD26A9F598007D9819 /* Stripes.swift */; };
 /* End PBXBuildFile section */
@@ -56,6 +57,7 @@
 		4922B46526A84308002A8109 /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
 		4922B46926A84442002A8109 /* ClassicSoloSetGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassicSoloSetGame.swift; sourceTree = "<group>"; };
 		4922B46D26A84A09002A8109 /* Color+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+.swift"; sourceTree = "<group>"; };
+		4942AB3C26C1705000CF5B88 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		497FBFAB26A8917C007D9819 /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
 		497FBFAD26A9F598007D9819 /* Stripes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stripes.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -178,6 +180,7 @@
 				497FBFAB26A8917C007D9819 /* CardView.swift */,
 				4915982726AC9E79009E7D6A /* ShapeView.swift */,
 				4915983E26AF510A009E7D6A /* AspectVGrid.swift */,
+				4942AB3C26C1705000CF5B88 /* SettingsView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -288,6 +291,7 @@
 				4915982D26ACA159009E7D6A /* ShapeShadingModifier.swift in Sources */,
 				497FBFAE26A9F598007D9819 /* Stripes.swift in Sources */,
 				4922B46E26A84A09002A8109 /* Color+.swift in Sources */,
+				4942AB3D26C1705000CF5B88 /* SettingsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -10,6 +10,8 @@ import SwiftUI
 struct CardView: View {
     let card: Card
     
+    @Binding var colorBlind: Bool
+    
     var number: Int {
         card.number.rawValue
     }
@@ -37,9 +39,11 @@ struct CardView: View {
     
     private let cardShape = RoundedRectangle(cornerRadius: DrawingConstants.cornerRadius)
 
+    @ViewBuilder
     private func front(of card: Card, in size: CGSize) -> some View {
         ZStack {
             cardShape.strokeBorder()
+            
             VStack {
                 ForEach(0..<self.number, id: \.self) {_ in
                     ZStack {
@@ -54,6 +58,15 @@ struct CardView: View {
                 }
             }
             .padding()
+            
+            if colorBlind {
+                VStack {
+                    Text("\(card.color.rawValue)")
+                        .font(font(in: size))
+                        .underline()
+                    Spacer()
+                }
+            }
         }
     }
     
@@ -79,11 +92,15 @@ struct CardView: View {
             }
         }
     }
+    
+    private func font(in size: CGSize) -> Font {
+        Font.system(size: min(size.width, size.height) * 0.1)
+    }
 }
 
 struct CardView_Previews: PreviewProvider {
     static var previews: some View {
-        CardView(card: Card.exampleCard)
+        CardView(card: Card.exampleCard, colorBlind: .constant(true))
     }
 }
 
