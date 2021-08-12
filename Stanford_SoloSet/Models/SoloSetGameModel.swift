@@ -15,7 +15,9 @@ struct SoloSetGameModel<Card: SetCard> {
     var selectedIndices: [Int]? = nil
     var matchFound = false
     
-    var score: Int = 0
+    var clock: Clock
+    
+    private(set) var score: Int = 0
     
     var setAvailable: Bool {
         return availableSets().count > 0
@@ -34,6 +36,8 @@ struct SoloSetGameModel<Card: SetCard> {
         discardCards = []
         
         score = 0
+        
+        clock = Clock(timeInterval: 1)
     }
     
     mutating func select(_ card: Card) {
@@ -41,7 +45,6 @@ struct SoloSetGameModel<Card: SetCard> {
             $0.id == card.id
         }) else { return }
         
-        // Assignment 3 logic (pre animation)
         if let indices = selectedIndices {
             if indices.count == 3 {
                 if matchFound {
@@ -53,6 +56,8 @@ struct SoloSetGameModel<Card: SetCard> {
                         selectedIndices = [Int]()
                         dealtCards[chosenIndex].isSelected = true
                         selectedIndices!.append(chosenIndex)
+
+                        clock.start()
                     }
                     
                     matchFound = false
@@ -67,22 +72,32 @@ struct SoloSetGameModel<Card: SetCard> {
                     dealtCards[chosenIndex].isSelected = true
                     selectedIndices!.append(chosenIndex)
                     matchFound = false
+                    
+                    clock.start()
                 }
             } else {
                 if selectedIndices!.contains(chosenIndex) {
                     dealtCards[chosenIndex].isSelected = false
                     selectedIndices!.removeAll(where: {$0 == chosenIndex})
+                    
+                    if selectedIndices!.count == 0 {
+                        selectedIndices = nil
+                        clock.stop()
+                    }
                 } else {
                     dealtCards[chosenIndex].isSelected = true
                     selectedIndices!.append(chosenIndex)
                     if selectedIndices!.count == 3 {
+                        clock.stop()
+                        
                         if cardsFormASet(selectedIndices!.map { dealtCards[$0] }) {
                             matchFound = true
                             for i in selectedIndices! {
                                 dealtCards[i].isMatched = true
                                 dealtCards[i].isNotMatched = false
                             }
-                            score += 3
+                            
+                            score += calculateScoreForElapsedTime(clock.timeElapsed)
                         } else {
                             matchFound = false
                             for i in selectedIndices! {
@@ -101,51 +116,17 @@ struct SoloSetGameModel<Card: SetCard> {
             selectedIndices = [Int]()
             selectedIndices!.append(chosenIndex)
             dealtCards[chosenIndex].isSelected = true
+            
+            clock.start()
         }
- 
-        
-        
-//        if let indices = selectedIndices {
-//            if indices.count == 3 {
-//                for i in dealtCards.indices {
-//                    dealtCards[i].isSelected = false
-//                    dealtCards[i].isMatched = false
-//                    dealtCards[i].isNotMatched = false
-//                }
-//                selectedIndices = nil
-//            }
-//        }
-        
-//        if selectedIndices == nil {
-//            selectedIndices = [Int]()
-//            selectedIndices!.append(chosenIndex)
-//        } else {
-//            if dealtCards[chosenIndex].isSelected {
-//                selectedIndices!.removeAll(where: { $0 == chosenIndex })
-//            } else {
-//                selectedIndices!.append(chosenIndex)
-//            }
-//        }
+    }
     
-//        dealtCards[chosenIndex].isSelected.toggle()
-//
-//        if selectedIndices!.count == 3 {
-//            if setSelected(selectedIndices!.map { dealtCards[$0] }) {
-//                for i in selectedIndices! {
-//                    dealtCards[i].isMatched = true
-//                    dealtCards[i].isNotMatched = false
-//                }
-//
-//                replaceMatchedCards(indices: selectedIndices!)
-//            } else {
-//                for i in selectedIndices! {
-//                    dealtCards[i].isMatched = false
-//                    dealtCards[i].isNotMatched = true
-//                }
-//            }
-//            selectedIndices = nil
-//        }
-    
+    private func calculateScoreForElapsedTime(_ elapsedTime : Int) -> Int {
+        let matchScore = 10 - elapsedTime
+        if matchScore <= 0 {
+            return 1
+        }
+        return matchScore
     }
     
     private mutating func replaceMatchedCards(indices: [Int]) {

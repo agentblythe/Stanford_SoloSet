@@ -20,7 +20,7 @@ struct GameView: View {
     
     @State var colorBlind = false
     
-    @State var showingSettings = true
+    @State var showingSettings = false
     
     var availableSet: [Card]! {
         return game.firstAvailableSet

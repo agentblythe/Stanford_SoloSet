@@ -37,6 +37,14 @@ class ClassicSoloSetGame: ObservableObject {
         return nil
     }
     
+    var selectedCardCount: Int {
+        return model.selectedIndices?.count ?? 0
+    }
+    
+    var elapsedTime: Int {
+        return model.clock.timeElapsed
+    }
+    
     init() {
         model = SoloSetGameModel(cardGetter: Card.getAll)
     }

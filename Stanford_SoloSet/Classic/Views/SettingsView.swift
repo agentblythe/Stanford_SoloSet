@@ -29,17 +29,12 @@ struct SettingsView: View {
                 .padding()
                 
                 Button(action: {
-                    withAnimation {
+                    withAnimation(Animation.easeInOut(duration: 0.2)) {
                         showing.toggle()
                     }
                 }, label: {
-                    if showing {
-                        Image(systemName: "chevron.compact.up")
-                            .font(.largeTitle)
-                    } else {
-                        Image(systemName: "chevron.compact.down")
-                            .font(.largeTitle)
-                    }
+                    Image(systemName: "minus")
+                        .font(.largeTitle)
                 })
                 .padding()
             }
