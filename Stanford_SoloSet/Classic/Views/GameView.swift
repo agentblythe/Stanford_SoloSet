@@ -52,7 +52,7 @@ struct GameView: View {
     
     var topToolbar: some View {
         HStack {
-            Text("Matched: \(game.discardCards.count)")
+            Text("Sets Found: \(game.setsFound)")
             
             Spacer()
             
@@ -84,8 +84,10 @@ struct GameView: View {
             
             HStack {
                 Text("Score: \(game.score)")
-                    .font(.caption)
+                Spacer()
+                Text("Discarded: \(game.discardCards.count)")
             }
+            .font(.caption)
             .padding(.horizontal)
         }
     }

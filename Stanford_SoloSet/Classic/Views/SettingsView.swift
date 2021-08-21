@@ -29,7 +29,7 @@ struct SettingsView: View {
                 .padding()
                 
                 Button(action: {
-                    withAnimation(Animation.easeInOut(duration: 0.2)) {
+                    withAnimation {
                         showing.toggle()
                     }
                 }, label: {

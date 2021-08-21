@@ -22,6 +22,10 @@ class ClassicSoloSetGame: ObservableObject {
         return model.dealtCards
     }
     
+    var setsFound: Int {
+        return model.setsFound
+    }
+    
     var score: Int {
         return model.score
     }

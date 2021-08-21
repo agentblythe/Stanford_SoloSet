@@ -19,6 +19,8 @@ struct SoloSetGameModel<Card: SetCard> {
     
     private(set) var score: Int = 0
     
+    private(set) var setsFound: Int  = 0
+    
     var setAvailable: Bool {
         return availableSets().count > 0
     }
@@ -62,13 +64,38 @@ struct SoloSetGameModel<Card: SetCard> {
                     
                     matchFound = false
                 } else {
+                    // Check whether a set was available or not
+                    if setAvailable {
+                        if let set = availableSets().first {
+                            for i in 0..<3 {
+                                // Find the missed card in the dealt cards
+                                if let found = dealtCards.firstIndex(where: { dealtCard in
+                                    dealtCard.id == set[i].id
+                                }) {
+                                    // Move it to the discard pile
+                                    discardCards.append(dealtCards[found])
+                                    
+                                    // Replace it with a new card
+                                    if undealtCards.count > 1 {
+                                        dealtCards[found] = undealtCards.removeFirst()
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    
+                    // Clear any selections and reset the matched/not matched flags
+                    // for the next round
                     for i in selectedIndices! {
                         dealtCards[i].isSelected = false
                         dealtCards[i].isMatched = false
                         dealtCards[i].isNotMatched = false
                     }
                     
+                    // Reset the selected indices as none are now selected
                     selectedIndices = [Int]()
+                    
+                    // Process the selection
                     dealtCards[chosenIndex].isSelected = true
                     selectedIndices!.append(chosenIndex)
                     matchFound = false
@@ -91,6 +118,7 @@ struct SoloSetGameModel<Card: SetCard> {
                         clock.stop()
                         
                         if cardsFormASet(selectedIndices!.map { dealtCards[$0] }) {
+                            // The selected cards form a set
                             matchFound = true
                             for i in selectedIndices! {
                                 dealtCards[i].isMatched = true
@@ -98,14 +126,21 @@ struct SoloSetGameModel<Card: SetCard> {
                             }
                             
                             score += calculateScoreForElapsedTime(clock.timeElapsed)
+                            
+                            setsFound += 1
                         } else {
+                            // The selected cards do not form a set
                             matchFound = false
                             for i in selectedIndices! {
                                 dealtCards[i].isMatched = false
                                 dealtCards[i].isNotMatched = true
                             }
                             
-                            if availableSets().count > 0 {
+                            // Check whether there was a set available to be chosen
+                            // that the player has missed
+                            let availableSets = availableSets()
+                            if availableSets.count > 0 {
+                                // Reduce the score because the player missed a valid set
                                 score -= 1
                             }
                         }
