@@ -58,8 +58,8 @@ class ClassicSoloSetGame: ObservableObject {
         model.select(card)
     }
     
-    func dealMoreCards() {
-        model.dealMoreCards()
+    func dealCards() {
+        model.dealCards()
     }
     
     func resetGame() {

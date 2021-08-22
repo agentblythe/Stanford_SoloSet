@@ -34,14 +34,6 @@ struct GameView: View {
         })
     }
     
-    var dealButton: some View {
-        Button(action: {
-            game.dealMoreCards()
-        }, label: {
-            Text("Deal 3")
-        })
-    }
-    
     var newGameButton: some View {
         Button(action: {
             game.resetGame()
@@ -52,73 +44,107 @@ struct GameView: View {
     
     var topToolbar: some View {
         HStack {
-            Text("Sets Found: \(game.setsFound)")
-            
+            Text("Sets Found: \(game.setsFound)\nScore: \(game.score)")
+                .multilineTextAlignment(.leading)
             Spacer()
-            
-            Text("Undealt: \(game.undealtCards.count)")
+            hintButton
+                .highlight(highlight: game.setAvailable)
+                .disabled(!game.setAvailable)
         }
         .padding(.horizontal)
     }
     
-    var bottomToolbar: some View {
-        VStack {
-            HStack(spacing: 0.0) {
-                hintButton
-                    .toolbarButton()
-                    .highlight(highlight: game.setAvailable)
-                    .disabled(!game.setAvailable)
-                    .frame(minWidth: 0, maxWidth: .infinity)
-      
-                dealButton
-                    .toolbarButton()
-                    .disabled(game.undealtCards.count == 0)
-                    .frame(minWidth: 0, maxWidth: .infinity)
-      
-                newGameButton
-                    .toolbarButton()
-                    .frame(minWidth: 0, maxWidth: .infinity)
-
-            }
-            .foregroundColor(Color.black).font(.headline)
-            
-            HStack {
-                Text("Score: \(game.score)")
-                Spacer()
-                Text("Discarded: \(game.discardCards.count)")
-            }
-            .font(.caption)
-            .padding(.horizontal)
-        }
-    }
-    
     var body: some View {
         GeometryReader { geometry in
-            ZStack {
+            ZStack(alignment: .bottom) {
                 VStack {
                     topToolbar
                     
-                    AspectVGrid(items: game.dealtCards, aspectRatio: 2/3) { card in
-                        CardView(card: card, colorBlind: $colorBlind)
-                            .contentShape(Rectangle())
-                            .onTapGesture {
-                                showHint = false
-                                game.select(card)
-                            }
-                            .padding(2)
-                            .border(showHint && game.setAvailable && game.firstAvailableSet.contains(card) ? Color.orange : Color.clear, width: 2.0)
-
-                    }
-                    .frame(maxHeight: geometry.size.height * 0.9)
+                    gameBody
                     
-                    bottomToolbar
+                    restartButton
                 }
-                .disabled(showingSettings)
-                .opacity(showingSettings ? 0.4 : 1.0)
                 
-                SettingsView(colorBlind: $colorBlind, showing: $showingSettings)
+                HStack {
+                    undealtDeckBody
+                        .padding(.horizontal)
+                        .onTapGesture {
+                            game.dealCards()
+                        }
+                    
+                    Spacer()
+                    
+                    discardPileBody
+                        .padding(.horizontal)
+                }
             }
+            .disabled(showingSettings)
+            .opacity(showingSettings ? 0.4 : 1.0)
+            
+            SettingsView(colorBlind: $colorBlind, showing: $showingSettings)
         }
+    }
+    
+    var gameBody: some View {
+        AspectVGrid(items: game.dealtCards, aspectRatio: 2/3) { card in
+            CardView(card: card, colorBlind: $colorBlind)
+                .contentShape(Rectangle())
+                .onTapGesture {
+                    showHint = false
+                    game.select(card)
+                }
+                .padding(2)
+                .border(showHint && game.setAvailable && game.firstAvailableSet.contains(card) ? Color.orange : Color.clear, width: 2.0)
+
+        }
+    }
+    
+    var undealtDeckBody: some View {
+        VStack {
+            ZStack {
+                ForEach(game.undealtCards) { card in
+                    CardView(card: card, colorBlind: $colorBlind, isFaceUp: false)
+                }
+            }
+            .frame(width: CardConstants.undealtWidth, height: CardConstants.undealtHeight, alignment: .center)
+            
+            Text("Undealt\n\(game.undealtCards.count)")
+                .foregroundColor(.black)
+                .multilineTextAlignment(.center)
+        }
+    }
+    
+    var discardPileBody: some View {
+        VStack {
+            ZStack {
+                ForEach(game.discardCards) { card in
+                    CardView(card: card, colorBlind: $colorBlind, isFaceUp: true)
+                }
+            }
+            .frame(width: CardConstants.undealtWidth, height: CardConstants.undealtHeight, alignment: .center)
+            .border(game.discardCards.count == 0 ? Color.black : Color.clear)
+            
+            Text("Discarded\n\(game.discardCards.count)")
+                .foregroundColor(.black)
+                .multilineTextAlignment(.center)
+        }
+    }
+    
+    var restartButton: some View {
+        Button(action: {
+            game.resetGame()
+        }, label: {
+            Text("Restart\nGame")
+                .multilineTextAlignment(.center)
+        })
+    }
+    
+    private struct CardConstants {
+        static let aspectRatio: CGFloat = 2/3
+        static let dealDuration: Double = 0.5
+        static let totalDealDuration: Double = 2
+        static let undealtHeight: CGFloat = 90
+        static let undealtWidth: CGFloat = undealtHeight * aspectRatio
     }
 }
 

@@ -30,10 +30,10 @@ struct SoloSetGameModel<Card: SetCard> {
         undealtCards = cardGetter()
         undealtCards.shuffle()
         
-        for i in 0..<12 {
-            dealtCards.append(undealtCards[i])
-        }
-        undealtCards.removeFirst(12)
+        //for i in 0..<12 {
+        //    dealtCards.append(undealtCards[i])
+        //}
+        //undealtCards.removeFirst(12)
         
         discardCards = []
         
@@ -170,6 +170,7 @@ struct SoloSetGameModel<Card: SetCard> {
         }
         
         for i in indices {
+            dealtCards[i].isSelected = false
             discardCards.append(dealtCards[i])
             if undealtCards.count > 0 {
                 dealtCards[i] = undealtCards.removeFirst()
@@ -220,22 +221,32 @@ struct SoloSetGameModel<Card: SetCard> {
         return true
     }
     
-    mutating func dealMoreCards() {
-        if availableSets().count > 0 {
-            score -= 2
+    mutating func dealInitialCards() {
+        dealtCards.removeAll()
+        for _ in 0..<12 {
+            dealtCards.append(undealtCards.removeFirst())
         }
-        
-        if undealtCards.count >= 3 {
-            for i in 0..<3 {
-                dealtCards.append(undealtCards[i])
+    }
+    
+    mutating func dealCards() {
+        if dealtCards.count == 0 {
+            dealInitialCards()
+        } else {
+            if availableSets().count > 0 {
+                score -= 2
             }
-            undealtCards.removeFirst(3)
+            
+            for _ in 0..<3 {
+                if undealtCards.count >= 1 {
+                    dealtCards.append(undealtCards.removeFirst())
+                }
+            }
+            
+            for i in dealtCards.indices {
+                dealtCards[i].isSelected = false
+            }
+            selectedIndices = nil
         }
-        
-        for i in dealtCards.indices {
-            dealtCards[i].isSelected = false
-        }
-        selectedIndices = nil
     }
     
     mutating func resetGame() {

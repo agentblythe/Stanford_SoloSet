@@ -12,6 +12,8 @@ struct CardView: View {
     
     @Binding var colorBlind: Bool
     
+    var isFaceUp = true
+    
     var number: Int {
         card.number.rawValue
     }
@@ -41,30 +43,35 @@ struct CardView: View {
 
     @ViewBuilder
     private func front(of card: Card, in size: CGSize) -> some View {
-        ZStack {
-            cardShape.strokeBorder()
-            
-            VStack {
-                ForEach(0..<self.number, id: \.self) {_ in
-                    ZStack {
-                        ShapeView(shape: card.shape)
-                            .stroke(lineWidth: 5.0)
-                            .colored(with: color)
-                        ShapeView(shape: card.shape)
-                            .shaded(with: shading)
-                            .colored(with: color)
-                    }
-                    .aspectRatio(DrawingConstants.shapeAspectRatio, contentMode: .fit)
-                }
-            }
-            .padding()
-            
-            if colorBlind {
+        if !isFaceUp {
+            cardShape.fill(Color.black)
+            cardShape.strokeBorder(Color.black)
+        } else {
+            ZStack {
+                cardShape.fill(Color.white)
+                cardShape.strokeBorder(Color.black)
                 VStack {
-                    Text("\(card.color.rawValue)")
-                        .font(font(in: size))
-                        .underline()
-                    Spacer()
+                    ForEach(0..<self.number, id: \.self) {_ in
+                        ZStack {
+                            ShapeView(shape: card.shape)
+                                .stroke(lineWidth: 5.0)
+                                .colored(with: color)
+                            ShapeView(shape: card.shape)
+                                .shaded(with: shading)
+                                .colored(with: color)
+                        }
+                        .aspectRatio(DrawingConstants.shapeAspectRatio, contentMode: .fit)
+                    }
+                }
+                .padding()
+                
+                if colorBlind {
+                    VStack {
+                        Text("\(card.color.rawValue)")
+                            .font(font(in: size))
+                            .underline()
+                        Spacer()
+                    }
                 }
             }
         }
@@ -100,7 +107,7 @@ struct CardView: View {
 
 struct CardView_Previews: PreviewProvider {
     static var previews: some View {
-        CardView(card: Card.exampleCard, colorBlind: .constant(true))
+        CardView(card: Card.exampleCard, colorBlind: .constant(true), isFaceUp: true)
     }
 }
 
