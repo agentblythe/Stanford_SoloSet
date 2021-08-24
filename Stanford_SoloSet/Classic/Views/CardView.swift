@@ -41,62 +41,54 @@ struct CardView: View {
     
     private let cardShape = RoundedRectangle(cornerRadius: DrawingConstants.cornerRadius)
 
-    @ViewBuilder
-    private func front(of card: Card, in size: CGSize) -> some View {
-        if !isFaceUp {
-            cardShape.fill(Color.black)
+//
+//                if colorBlind {
+//                    VStack {
+//                        Text("\(card.color.rawValue)")
+//                            .font(font(in: size))
+//                            .underline()
+//                        Spacer()
+//                    }
+//                }
+//            }
+//        }
+//    }
+    
+    
+    var cardContent: some View {
+        ZStack {
+            cardShape.fill(Color.white)
             cardShape.strokeBorder(Color.black)
-        } else {
-            ZStack {
-                cardShape.fill(Color.white)
-                cardShape.strokeBorder(Color.black)
-                VStack {
-                    ForEach(0..<self.number, id: \.self) {_ in
-                        ZStack {
-                            ShapeView(shape: card.shape)
-                                .stroke(lineWidth: 5.0)
-                                .colored(with: color)
-                            ShapeView(shape: card.shape)
-                                .shaded(with: shading)
-                                .colored(with: color)
-                        }
-                        .aspectRatio(DrawingConstants.shapeAspectRatio, contentMode: .fit)
+            VStack {
+                ForEach(0..<self.number, id: \.self) {_ in
+                    ZStack {
+                        ShapeView(shape: card.shape)
+                            .stroke(lineWidth: 5.0)
+                            .colored(with: color)
+                        ShapeView(shape: card.shape)
+                            .shaded(with: shading)
+                            .colored(with: color)
                     }
-                }
-                .padding()
-                
-                if colorBlind {
-                    VStack {
-                        Text("\(card.color.rawValue)")
-                            .font(font(in: size))
-                            .underline()
-                        Spacer()
-                    }
+                    .aspectRatio(DrawingConstants.shapeAspectRatio, contentMode: .fit)
                 }
             }
+            .padding()
         }
-    }
-    
-    private func back(of card: Card, in size: CGSize) -> some View {
-        cardShape.fill()
     }
     
     var body: some View {
         GeometryReader { geometry in
-            if card.isSelected {
-                if card.isMatched {
-                    front(of: card, in: geometry.size)
-                        .border(Color.green, width: 5)
-                } else if card.isNotMatched {
-                    front(of: card, in: geometry.size)
-                        .border(Color.red, width: 5)
-                } else {
-                    front(of: card, in: geometry.size)
-                        .border(Color.blue, width: 5)
-                }
-            } else {
-                front(of: card, in: geometry.size)
+            ZStack {
+                cardContent
+//                    .rotationEffect(Angle.degrees(card.isMatched ? 360 : 0))
+//                    .animation(Animation.easeInOut)
             }
+            .cardify(
+                isFaceUp: card.isFaceUp,
+                isMatched: card.isMatched,
+                isNotMatched: card.isNotMatched,
+                isSelected: card.isSelected,
+                isHint: card.isHint)
         }
     }
     
@@ -107,7 +99,7 @@ struct CardView: View {
 
 struct CardView_Previews: PreviewProvider {
     static var previews: some View {
-        CardView(card: Card.exampleCard, colorBlind: .constant(true), isFaceUp: true)
+        CardView(card: Card.exampleCard, colorBlind: .constant(true))
     }
 }
 

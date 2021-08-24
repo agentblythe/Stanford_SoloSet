@@ -16,6 +16,12 @@ struct Card: SetCard {
     
     var isNotMatched: Bool = false
     
+    var isDealt: Bool = false
+    
+    var isDiscarded: Bool = false
+    
+    var isHint: Bool = false
+    
     init(property1: Number, property2: Shape, property3: Shading, property4: ValidColor) {
         self.number = property1
         self.shape = property2

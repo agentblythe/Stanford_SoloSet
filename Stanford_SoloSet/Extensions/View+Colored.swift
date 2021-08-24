@@ -12,9 +12,3 @@ extension View {
         self.modifier(ShapeColorModifier(shapeColor: validColor))
     }
 }
-
-extension View {
-    func shaded(with shading: Card.Shading) -> some View {
-        self.modifier(ShapeShadingModifier(shading: shading))
-    }
-}

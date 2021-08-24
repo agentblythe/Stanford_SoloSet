@@ -29,6 +29,10 @@ protocol SetCard: Identifiable, Equatable
     
     var isNotMatched: Bool { get set }
     
+    var isDiscarded: Bool { get set }
+    
+    var isDealt: Bool { get set }
+    
     var property1: Property1 { get }
     var property2: Property2 { get }
     var property3: Property3 { get }

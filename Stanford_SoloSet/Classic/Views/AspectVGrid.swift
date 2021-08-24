@@ -7,60 +7,66 @@
 
 import SwiftUI
 
-struct AspectVGrid<Item, ItemView>: View where ItemView: View, Item: Identifiable {
-    
+struct AspectVGrid<Item: Identifiable, ItemView: View>: View {
     var items: [Item]
     var aspectRatio: CGFloat
-    var minimumWidth: CGFloat
+    var spacing: CGFloat
     var content: (Item) -> ItemView
     
-    init(items: [Item], aspectRatio: CGFloat, minimumWidth: CGFloat = 80.0, @ViewBuilder content: @escaping (Item) -> ItemView) {
+    init(items: [Item], aspectRatio: CGFloat, spacing: CGFloat = 5.0, @ViewBuilder content: @escaping (Item) -> ItemView) {
         self.items = items
         self.aspectRatio = aspectRatio
-        self.minimumWidth = minimumWidth
+        self.spacing = spacing
         self.content = content
     }
     
-    
     var body: some View {
         GeometryReader { geometry in
-            ScrollView {
-                VStack {
-                    let width = widthThatFits(itemCount: items.count, in: geometry.size, itemAspectRatio: aspectRatio)
-                    LazyVGrid(columns: [adaptiveGridItem(width: width)], spacing: 0.0, content: {
-                        ForEach(items) { item in
-                            content(item).aspectRatio(aspectRatio, contentMode: .fit)
-                        }
-                        
-                    })
-                    Spacer(minLength: 0)
+            VStack {
+                LazyVGrid(columns: [adaptiveGridItem(width: widthThatFits(in: geometry.size))], spacing: spacing) {
+                    ForEach(items) { item in
+                        content(item)
+                            .aspectRatio(aspectRatio, contentMode: .fit)
+                    }
                 }
+                Spacer(minLength: 0)
             }
         }
     }
     
     private func adaptiveGridItem(width: CGFloat) -> GridItem {
-        GridItem(.adaptive(minimum: width), spacing: 0.0)
+        var gridItem = GridItem(.adaptive(minimum: width))
+        gridItem.spacing = spacing
+        return gridItem
     }
     
-    private func widthThatFits(itemCount: Int, in size: CGSize, itemAspectRatio: CGFloat) -> CGFloat {
-        var columnCount = 1
-        var rowCount = itemCount
+    private func widthThatFits(in size: CGSize) -> CGFloat {
+        let itemCount = items.count
+
+        var columns = 1
+        var rows = itemCount
+        
+        var width: CGFloat
+        var height: CGFloat
+        
         repeat {
-            let itemWidth = size.width / CGFloat(columnCount)
-            let itemHeight = itemWidth / itemAspectRatio
-            if CGFloat(rowCount) * itemHeight < size.height {
+            width = (size.width - (spacing * CGFloat(columns - 1))) / CGFloat(columns)
+            
+            height = width / aspectRatio
+            
+            if (CGFloat(rows) * height) + (spacing * CGFloat(rows - 1)) < size.height {
                 break
             }
-            columnCount += 1
-            rowCount = (itemCount + (columnCount - 1)) / columnCount
-        } while columnCount < itemCount
+            columns += 1
+            rows = (itemCount + (columns - 1)) /  columns
+            //rows = itemCount /  columns
+        } while columns < itemCount
         
-        if columnCount > itemCount {
-            columnCount = itemCount
+        if columns > itemCount {
+            columns = itemCount
         }
-        let calculatedWidth = floor(size.width / CGFloat(columnCount))
-        return max(minimumWidth, calculatedWidth)
+        
+        return floor((size.width - (spacing * CGFloat(columns - 1))) / CGFloat(columns))
     }
 }
 

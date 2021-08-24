@@ -11,15 +11,15 @@ class ClassicSoloSetGame: ObservableObject {
     @Published private var model: SoloSetGameModel<Card>
     
     var undealtCards: Array<Card> {
-        return model.undealtCards
+        return model.undealt
     }
     
     var discardCards: Array<Card> {
-        return model.discardCards
+        return model.discard
     }
     
     var dealtCards: Array<Card> {
-        return model.dealtCards
+        return model.inPlay
     }
     
     var setsFound: Int {
@@ -49,6 +49,10 @@ class ClassicSoloSetGame: ObservableObject {
         return model.clock.timeElapsed
     }
     
+    var inPlayIndicesOfCardsToDiscard: [Int] {
+        return model.inPlayIndicesOfCardsToDiscard
+    }
+    
     init() {
         model = SoloSetGameModel(cardGetter: Card.getAll)
     }
@@ -60,6 +64,14 @@ class ClassicSoloSetGame: ObservableObject {
     
     func dealCards() {
         model.dealCards()
+    }
+    
+    func dealCard() {
+        model.dealCard()
+    }
+    
+    func discardCard(_ card: Card) {
+        model.discardCard(card)
     }
     
     func resetGame() {
