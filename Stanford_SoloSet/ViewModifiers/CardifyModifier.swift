@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct Cardify: AnimatableModifier {
+struct CardifyModifier: AnimatableModifier {
     
     init(isFaceUp: Bool,
          isMatched: Bool,

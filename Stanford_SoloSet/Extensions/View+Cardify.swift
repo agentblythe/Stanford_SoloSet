@@ -13,7 +13,7 @@ extension View {
                         isNotMatched: Bool,
                         isSelected: Bool,
                         isHint: Bool) -> some View {
-        self.modifier(Cardify(isFaceUp: isFaceUp,
+        self.modifier(CardifyModifier(isFaceUp: isFaceUp,
                               isMatched: isMatched,
                               isNotMatched: isNotMatched,
                               isSelected: isSelected,
@@ -21,7 +21,7 @@ extension View {
     }
     
     public func cardify(isFaceUp: Bool) -> some View {
-        self.modifier(Cardify(isFaceUp: isFaceUp,
+        self.modifier(CardifyModifier(isFaceUp: isFaceUp,
                               isMatched: false,
                               isNotMatched: false,
                               isSelected: false,

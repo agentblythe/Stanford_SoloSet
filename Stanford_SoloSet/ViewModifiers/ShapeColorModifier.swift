@@ -7,6 +7,9 @@
 
 import SwiftUI
 
+//
+// View Modifier to apply a colour to a Shape
+//
 struct ShapeColorModifier: ViewModifier {
     var shapeColor: Card.ValidColor
 

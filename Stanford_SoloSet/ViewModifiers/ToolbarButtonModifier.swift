@@ -7,6 +7,10 @@
 
 import SwiftUI
 
+//
+// View Modifier to style a view, typically a button
+// to have a "Toolbar" style
+//
 struct ToolbarButtonModifier: ViewModifier {
     func body(content: Content) -> some View {
         content
@@ -17,8 +21,3 @@ struct ToolbarButtonModifier: ViewModifier {
     }
 }
 
-extension View {
-    func toolbarButton() -> some View {
-        self.modifier(ToolbarButtonModifier())
-    }
-}

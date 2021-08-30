@@ -1,5 +1,5 @@
 //
-//  View+Shaded.swift
+//  View+ShadedWith.swift
 //  Stanford_SoloSet
 //
 //  Created by Steve Blythe on 23/08/2021.

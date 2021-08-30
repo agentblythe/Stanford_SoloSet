@@ -1,5 +1,5 @@
 //
-//  Array+Identifiable.swift
+//  Array+FirstIndexMatching.swift
 //  Stanford_SoloSet
 //
 //  Created by Steve Blythe on 26/07/2021.

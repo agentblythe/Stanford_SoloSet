@@ -1,5 +1,5 @@
 //
-//  Color.swift
+//  Color+Init.swift
 //  Stanford_SoloSet
 //
 //  Created by Steve Blythe on 21/07/2021.

@@ -59,7 +59,6 @@ struct AspectVGrid<Item: Identifiable, ItemView: View>: View {
             }
             columns += 1
             rows = (itemCount + (columns - 1)) /  columns
-            //rows = itemCount /  columns
         } while columns < itemCount
         
         if columns > itemCount {

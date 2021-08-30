@@ -7,6 +7,9 @@
 
 import Foundation
 
+//
+// This class represents the View-Model for the Set Game
+//
 class ClassicSoloSetGame: ObservableObject {
     @Published private var model: SoloSetGameModel<Card>
     
@@ -45,7 +48,7 @@ class ClassicSoloSetGame: ObservableObject {
         return model.selectedIndices?.count ?? 0
     }
     
-    var elapsedTime: Int {
+    var elapsedTime: Double {
         return model.clock.timeElapsed
     }
     
@@ -70,11 +73,23 @@ class ClassicSoloSetGame: ObservableObject {
         model.dealCard()
     }
     
+    func resetGame() {
+        model.resetGame()
+    }
+    
+    func markDiscardComplete() {
+        model.inPlayIndicesOfCardsToDiscard.removeAll()
+    }
+    
+    func replaceOrDiscardCard(_ card: Card) {
+        model.replaceOrDiscardCard(card)
+    }
+    
     func discardCard(_ card: Card) {
         model.discardCard(card)
     }
     
-    func resetGame() {
-        model.resetGame()
+    func dealCard(_ card: Card, to index: Int) {
+        model.dealCard(card, to: index)
     }
 }

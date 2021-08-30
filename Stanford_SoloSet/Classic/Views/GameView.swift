@@ -24,9 +24,15 @@ struct GameView: View {
     
     @State var showingSettings = false
     
-//    private func isUndealt(_ card: Card) -> Bool {
-//        return !game.dealtCards.contains(card)
-//    }
+    private struct CardConstants {
+        static let aspectRatio: CGFloat = 2/3
+        static let initialDealDuration: Double = 0.5
+        static let totalInitialDealDuration: Double = 2
+        static let newDealDuration: Double = 0.3
+        static let totalNewDealDuration: Double = 0.8
+        static let undealtHeight: CGFloat = 90
+        static let undealtWidth: CGFloat = undealtHeight * aspectRatio
+    }
     
     private func dealInitialCards() {
         let newCards = game.undealtCards.prefix(12)
@@ -46,15 +52,31 @@ struct GameView: View {
         }
     }
     
-    private func discardCards() {
+    private func replaceOrDiscardCards() {
         let inPlayIndicesOfCardsToDiscard = game.inPlayIndicesOfCardsToDiscard
-        if inPlayIndicesOfCardsToDiscard.count > 0 {
-            inPlayIndicesOfCardsToDiscard.forEach { i in
-                var card = game.dealtCards[i]
-                withAnimation(discardAnimation(for: card)) {
-                    game.discardCard(card)
+        if inPlayIndicesOfCardsToDiscard.count == 3 {
+            var oldCards = [Card]()
+            for i in inPlayIndicesOfCardsToDiscard {
+                oldCards.append(game.dealtCards[i])
+            }
+            
+            if game.dealtCards.count >= 15 ||
+                game.undealtCards.count == 0 {
+                for i in 0..<3 {
+                    withAnimation(discardAnimation(for: oldCards[i])) {
+                        game.discardCard(oldCards[i])
+                    }
+                }
+            } else {
+                var newCards = game.undealtCards.prefix(3)
+                for i in 0..<3 {
+                    withAnimation(replaceAnimation(for: oldCards[i], in: oldCards, with: newCards[i], in: newCards)) {
+                        game.replaceOrDiscardCard(oldCards[i])
+                    }
                 }
             }
+            
+            game.markDiscardComplete()
         }
     }
     
@@ -84,7 +106,7 @@ struct GameView: View {
                 .multilineTextAlignment(.leading)
             Spacer()
             hintButton
-                .foregroundColor(.orange)
+                .foregroundColor(game.setAvailable ? .orange : .gray.opacity(0.5))
                 .disabled(!game.setAvailable)
         }
         .padding(.horizontal)
@@ -123,12 +145,24 @@ struct GameView: View {
         }
     }
     
+    private func replaceAnimation(for old: Card, in oldCards: [Card], with new: Card, in newCards: ArraySlice<Card>) -> Animation {
+        var delay = 0.0
+        if let dealtIndex = oldCards.firstIndex(where: { $0.id == old.id }) {
+            delay = Double(dealtIndex) * (CardConstants.totalNewDealDuration / Double(oldCards.count))
+        }
+        return Animation.easeInOut(duration: CardConstants.newDealDuration).delay(delay)
+    }
+    
     private func dealAnimation(for card: Card, in newCards: ArraySlice<Card>) -> Animation {
         var delay = 0.0
         if let index = newCards.firstIndex(where: { $0.id == card.id }) {
-            delay = Double(index) * (CardConstants.totalDealDuration / Double(newCards.count))
+            delay = Double(index) * (CardConstants.totalInitialDealDuration / Double(newCards.count))
         }
-        return Animation.easeInOut(duration: CardConstants.dealDuration).delay(delay)
+        return Animation.easeInOut(duration: CardConstants.initialDealDuration).delay(delay)
+    }
+    
+    private func dealAnimation(for card: Card) -> Animation {
+        return Animation.easeInOut(duration: CardConstants.initialDealDuration)
     }
     
     private func discardAnimation(for card: Card) -> Animation {
@@ -150,6 +184,9 @@ struct GameView: View {
                 .border(showHint && game.setAvailable && game.firstAvailableSet.contains(card) ? Color.orange : Color.clear, width: 5.0)
                 .onTapGesture {
                     showHint = false
+                    
+                    replaceOrDiscardCards()
+
                     game.select(card)
                 }
         }
@@ -200,14 +237,6 @@ struct GameView: View {
             Text("Restart\nGame")
                 .multilineTextAlignment(.center)
         })
-    }
-    
-    private struct CardConstants {
-        static let aspectRatio: CGFloat = 2/3
-        static let dealDuration: Double = 0.5
-        static let totalDealDuration: Double = 2
-        static let undealtHeight: CGFloat = 90
-        static let undealtWidth: CGFloat = undealtHeight * aspectRatio
     }
 }
 

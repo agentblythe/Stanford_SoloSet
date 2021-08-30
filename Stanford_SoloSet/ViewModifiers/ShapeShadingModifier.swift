@@ -7,6 +7,9 @@
 
 import SwiftUI
 
+//
+// View Modifier to apply a shading to a Shape
+//
 struct ShapeShadingModifier: ViewModifier {
     var shading: Card.Shading
     

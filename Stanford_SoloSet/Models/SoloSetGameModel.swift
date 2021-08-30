@@ -49,18 +49,30 @@ struct SoloSetGameModel<Card: SetCard> {
     }
     
     mutating func select(_ card: Card) {
+        //print("debug::select()")
         guard let chosenIndex = inPlay.firstIndex(where: {
             $0.id == card.id
         }) else { return }
         
+        //print("debug::\(chosenIndex)")
+        
+        // Get the indexes of the selected cards
         if let indices = selectedIndices {
+            // If there are three selected
             if indices.count == 3 {
+                // Is the selection a match?
                 if matchFound {
+                    //print("debug::matchFound")
+                    // If the selected indices does not contain the selected index
                     if selectedIndices!.contains(chosenIndex) {
+                        // Unselect all cards
                         selectedIndices = nil
-                        replaceMatchedCards(at: indices)
+                        // Replace them with new ones
+                        //replaceMatchedCards(at: indices)
                     } else {
-                        replaceMatchedCards(at: indices)
+                        // The selected indices does not contain the selected index
+                        //replaceMatchedCards(at: indices)
+                        
                         selectedIndices = [Int]()
                         inPlay[chosenIndex].isSelected = true
                         selectedIndices!.append(chosenIndex)
@@ -127,6 +139,9 @@ struct SoloSetGameModel<Card: SetCard> {
                         if cardsFormASet(selectedIndices!.map { inPlay[$0] }) {
                             // The selected cards form a set
                             matchFound = true
+                            
+                            inPlayIndicesOfCardsToDiscard = selectedIndices!
+                            
                             for i in selectedIndices! {
                                 inPlay[i].isMatched = true
                                 inPlay[i].isNotMatched = false
@@ -163,32 +178,16 @@ struct SoloSetGameModel<Card: SetCard> {
             
             clock.start()
         }
+        
+        //print("debug::end()")
     }
     
-    private func calculateScoreForElapsedTime(_ elapsedTime : Int) -> Int {
+    private func calculateScoreForElapsedTime(_ elapsedTime : Double) -> Int {
         let matchScore = 10 - elapsedTime
         if matchScore <= 0 {
             return 1
         }
-        return matchScore
-    }
-    
-    private mutating func replaceMatchedCards(at indices: [Int]) {
-        if indices.count != 3 {
-            return
-        }
-        
-        for i in indices {
-            inPlay[i].isSelected = false
-            inPlay[i].isMatched = false
-            inPlay[i].isNotMatched = false
-            
-            discard.append(inPlay[i])
-            if undealt.count > 0 {
-                inPlay[i] = undealt.removeFirst()
-                inPlay[i].isFaceUp = true
-            }
-        }
+        return Int(matchScore)
     }
     
     func availableSets() -> [ [Card] ] {
@@ -247,34 +246,50 @@ struct SoloSetGameModel<Card: SetCard> {
         }
     }
     
-    mutating func discardCard(_ card: Card) {
+    mutating func replaceOrDiscardCard(_ card: Card) {
         if let index = inPlay.firstIndex(of: card) {
-            var card = inPlay[index]
-            inPlay.remove(at: index)
-            discard.append(card)
+            inPlay[index].isDealt = false
+            inPlay[index].isSelected = false
+            inPlay[index].isMatched = false
+            inPlay[index].isNotMatched = false
+            inPlay[index].isDiscarded = true
+            
+            let card = inPlay[index]
+            
+            if undealt.count > 1 {
+                discard.append(card)
+                
+                inPlay[index] = undealt.removeFirst()
+                inPlay[index].isFaceUp = true
+            } else {
+                discard.append(card)
+                
+                inPlay.remove(at: index)
+            }
         }
     }
     
-//    mutating func dealCards(_ number: Int = 3) {
-//        if number != 3 {
-//            dealInitialCards()
-//        } else {
-//            if availableSets().count > 0 {
-//                score -= 2
-//            }
-//
-//            for _ in 0..<3 {
-//                if undealtCards.count >= 1 {
-//                    dealtCards.append(undealtCards.removeFirst())
-//                }
-//            }
-//
-//            for i in dealtCards.indices {
-//                dealtCards[i].isSelected = false
-//            }
-//            selectedIndices = nil
-//        }
-//    }
+    mutating func discardCard(_ card: Card) {
+        if let index = inPlay.firstIndex(of: card) {
+            
+            inPlay[index].isDealt = false
+            inPlay[index].isSelected = false
+            inPlay[index].isMatched = false
+            inPlay[index].isNotMatched = false
+            inPlay[index].isDiscarded = true
+            
+            discard.append(inPlay[index])
+            inPlay.remove(at: index)
+        }
+    }
+    
+    mutating func dealCard(_ card: Card, to index: Int) {
+        inPlay.insert(card, at: index)
+        undealt.removeFirst()
+        
+        inPlay[index].isDealt = true
+        inPlay[index].isFaceUp = true
+    }
     
     mutating func resetGame() {
         undealt = Card.getAll()
